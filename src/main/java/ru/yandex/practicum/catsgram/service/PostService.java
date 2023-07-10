@@ -10,6 +10,7 @@ import ru.yandex.practicum.catsgram.model.Post;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Getter
@@ -17,8 +18,18 @@ public class PostService extends BaseService<Post> {
 
     private Integer postId = 0;
 
-    private boolean checkAuthor (String author) {
-        return items.stream().map(Post::getAuthor).noneMatch(author::equals);
+    private List<Post> checkAuthor (String author, String sort, Integer size) {
+        return items.stream()
+                .filter(post -> post.getAuthor().equals(author))
+                .sorted((o1, o2) -> {
+                    int com = o1.getCreationDate().compareTo(o2.getCreationDate());
+                    if (sort.equals("desc")) {
+                        com = -1 * com;
+                    }
+                    return com;
+                })
+                .limit(size)
+                .collect(Collectors.toList());
     }
 
     private Optional<Post> getIdPost (Integer idPost) {
@@ -29,24 +40,25 @@ public class PostService extends BaseService<Post> {
         return postUserMapper.toListPostDtoForRead(items);
     }
 
+    public List<PostDtoForRead> getAuthor(String author, String sort, Integer size) {
+        List<Post> post = checkAuthor(author, sort, size);
+        return postUserMapper.toListPostDtoForRead(post);
+    }
+
     public PostDtoForRead getPost(Integer id) {
         Post post = getIdPost(id).orElseThrow(() -> new BaseExeption("Такого индентификатора нет"));
         return postUserMapper.toPostDtoForRead(post);
     }
 
-    private Integer generateId(Integer id) {
+    private Integer generateId() {
        return ++postId;
     }
 
     public PostDtoForRead addPost(PostDtoForAdd postDtoForAdd) {
-        if (checkAuthor(postDtoForAdd.getAuthor())) {
-            Post post = postUserMapper.postToPostDtoForAdd(postDtoForAdd);
-            post.setId(generateId(postId));
-            add(post);
-            return postUserMapper.toPostDtoForRead(post);
-        } else {
-            throw new InvalidAuthorExeption("Такой автор уже есть");
-        }
+        Post post = postUserMapper.postToPostDtoForAdd(postDtoForAdd);
+        post.setId(generateId());
+        add(post);
+        return postUserMapper.toPostDtoForRead(post);
     }
 
 }

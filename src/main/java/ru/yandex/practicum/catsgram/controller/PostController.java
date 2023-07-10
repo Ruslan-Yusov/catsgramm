@@ -7,6 +7,7 @@ import ru.yandex.practicum.catsgram.api.dto.PostDtoForRead;
 import ru.yandex.practicum.catsgram.model.Post;
 import ru.yandex.practicum.catsgram.service.PostService;
 
+import javax.validation.constraints.Max;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,14 @@ public class PostController {
     @GetMapping("/posts")
     public List<PostDtoForRead> findAll() {
         return postService.allPosts();
+    }
+
+    @GetMapping("/posts/serch")
+    public List<PostDtoForRead> allAuthor(
+            @RequestParam String author,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) Integer size) {
+        return postService.getAuthor(author, sort, size);
     }
 
     @GetMapping("posts/{id}")
