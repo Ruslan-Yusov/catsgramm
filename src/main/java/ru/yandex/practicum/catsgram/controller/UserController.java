@@ -21,6 +21,11 @@ public class UserController {
         return userService.allUser();
     }
 
+    @GetMapping("/users/{email}")
+    public UserDtoForRead getUserEmail(@PathVariable String email) {
+        return userService.getUser(email);
+    }
+
     @PostMapping("/users")
     public UserDtoForRead create(@RequestBody UserDtoForAdd user) {
         return userService.addUser(user);

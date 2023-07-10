@@ -21,7 +21,12 @@ public class PostController {
         return postService.allPosts();
     }
 
-    @PostMapping("/post")
+    @GetMapping("posts/{id}")
+    public PostDtoForRead getPost(@PathVariable Integer id) {
+        return postService.getPost(id);
+    }
+
+    @PostMapping("/posts")
     public PostDtoForRead create(@RequestBody PostDtoForAdd post) {
         return postService.addPost(post);
     }
