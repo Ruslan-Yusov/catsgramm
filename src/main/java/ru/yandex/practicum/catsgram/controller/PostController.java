@@ -13,16 +13,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/posts")
 public class PostController {
 
     private final PostService postService;
 
-    @GetMapping("/posts")
+    @GetMapping()
     public List<PostDtoForRead> findAll() {
         return postService.allPosts();
     }
 
-    @GetMapping("/posts/serch")
+    @GetMapping("/search") // этот элемент был в задании
     public List<PostDtoForRead> allAuthor(
             @RequestParam String author,
             @RequestParam(required = false) String sort,
@@ -30,12 +31,12 @@ public class PostController {
         return postService.getAuthor(author, sort, size);
     }
 
-    @GetMapping("posts/{id}")
-    public PostDtoForRead getPost(@PathVariable Integer id) {
+    @GetMapping("{id}")
+    public PostDtoForRead getPost(@PathVariable("id") Integer id) {
         return postService.getPost(id);
     }
 
-    @PostMapping("/posts")
+    @PostMapping()
     public PostDtoForRead create(@RequestBody PostDtoForAdd post) {
         return postService.addPost(post);
     }

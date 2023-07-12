@@ -1,13 +1,14 @@
 package ru.yandex.practicum.catsgram.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Data
+@AllArgsConstructor
 public class PostDtoForRead {
     private Integer id;
     private String author;
