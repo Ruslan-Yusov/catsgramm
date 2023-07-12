@@ -32,6 +32,12 @@ public class UserService extends BaseService<User> {
         return postUserMapper.toListUserDtoForRead(items);
     }
 
+    public UserDtoForRead getUser (String email) {
+        User user = getEmail(email)
+                .orElseThrow(() -> new InvalidEmailException("Такого электронного адреса нет"));
+        return postUserMapper.toUserDtoForRead(user);
+    }
+
     public UserDtoForRead addUser(UserDtoForAdd userDtoForAdd) {
         Matcher matcher = pattern.matcher(userDtoForAdd.getEmail());
         if (checkEmail(userDtoForAdd.getEmail())) {

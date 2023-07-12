@@ -12,21 +12,27 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping()
     public List<UserDtoForRead> findAllUsers() {
         return userService.allUser();
     }
 
-    @PostMapping("/users")
+    @GetMapping("/{email}")
+    public UserDtoForRead getUser(@PathVariable("email") String email) {
+        return userService.getUser(email);
+    }
+
+    @PostMapping()
     public UserDtoForRead create(@RequestBody UserDtoForAdd user) {
         return userService.addUser(user);
     }
 
-    @PutMapping("/users")
+    @PutMapping()
     public UserDtoForRead putUser(@RequestBody UserDtoForRead user) {
         return userService.updateUser(user);
     }

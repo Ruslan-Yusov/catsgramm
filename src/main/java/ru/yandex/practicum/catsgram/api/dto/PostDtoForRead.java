@@ -1,23 +1,21 @@
 package ru.yandex.practicum.catsgram.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Data
+@AllArgsConstructor
 public class PostDtoForRead {
-
-    private String author; // автор
-    private Instant creationDate = Instant.now(); // дата создания
-    private String description; // описание
-    private String photoUrl; // url-адрес фотографии
-
-    public PostDtoForRead(String author, String description, String photoUrl) {
-        this.author = author;
-        this.description = description;
-        this.photoUrl = photoUrl;
-    }
+    private Integer id;
+    private String author;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate creationDate = LocalDate.now();
+    private String description;
+    private String photoUrl;
 
     @Override
     public boolean equals(Object o) {

@@ -1,23 +1,21 @@
 package ru.yandex.practicum.catsgram.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Data
+@AllArgsConstructor
 public class Post {
-
-    private String author; // автор
-    private Instant creationDate = Instant.now(); // дата создания
-    private String description; // описание
-    private String photoUrl; // url-адрес фотографии
-
-    public Post(String author, String description, String photoUrl) {
-        this.author = author;
-        this.description = description;
-        this.photoUrl = photoUrl;
-    }
+    private Integer id;
+    private String author;
+    private LocalDate creationDate;
+    private String description;
+    private String photoUrl;
 
     @Override
     public boolean equals(Object o) {

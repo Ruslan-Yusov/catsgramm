@@ -1,23 +1,18 @@
 package ru.yandex.practicum.catsgram.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Data
+@AllArgsConstructor
 public class PostDtoForAdd {
-
-    private String author; // автор
-    private Instant creationDate = Instant.now(); // дата создания
-    private String description; // описание
-    private String photoUrl; // url-адрес фотографии
-
-    public PostDtoForAdd(String author, String description, String photoUrl) {
-        this.author = author;
-        this.description = description;
-        this.photoUrl = photoUrl;
-    }
+    private String author;
+    private String description;
+    private String photoUrl;
 
     @Override
     public boolean equals(Object o) {
@@ -25,13 +20,12 @@ public class PostDtoForAdd {
         if (o == null || getClass() != o.getClass()) return false;
         PostDtoForAdd post = (PostDtoForAdd) o;
         return Objects.equals(author, post.author)
-                && Objects.equals(creationDate, post.creationDate)
                 && Objects.equals(description, post.description)
                 && Objects.equals(photoUrl, post.photoUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(author, creationDate, description, photoUrl);
+        return Objects.hash(author, description, photoUrl);
     }
 }
